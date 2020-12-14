@@ -1,0 +1,60 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Show</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+</head>
+<body>
+    <script>
+        $(function () {
+            Show();
+        })
+        function Show() {
+            $.ajax({
+                url: '/Huiyi/Shows',
+                type: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $("#list").empty();
+                    $(data).each(function () {
+                        var str = '<tr>'
+                            + '<td>' + this.HuiyiName + '</td>'
+                            + '<td>' + this.HuiyiNei + '</td>'
+                            + '<td>' + this.ATime + '</td>'
+                            + '<td>' + this.Address + '</td>'
+                            + '<td>' + this.Preple + '</td>'
+                            + '<td>' + this.BeiZhu + '</td>'
+                            + '<td>' + this.AShipin + '</td>'
+                            + '</tr>';
+                        $("#list").append(str);
+                    })
+                }
+            })
+        }
+    </script>
+    <div>
+        <table class=" table table-bordered" >
+            <thead>
+                <tr>
+                    <td>会议名称</td>
+                    <td>会议内容</td>
+                    <td>起止时间</td>
+                    <td>会议地点</td>
+                    <td>参会者</td>
+                    <td>备注</td>
+                    <td>视频</td>
+                </tr>
+            </thead>
+            <tbody id="list"></tbody>
+        </table>
+    </div>
+</body>
+</html>

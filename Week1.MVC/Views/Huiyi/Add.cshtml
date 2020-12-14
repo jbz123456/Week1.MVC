@@ -1,0 +1,120 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add</title>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/My97DatePicker/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body>
+    <div>
+        <script>
+            $(function () {
+                didian();
+                canhuiren();
+            })
+            //地点下拉框
+            function didian() {
+                $.ajax({
+                    url: '/Huiyi/Didian',
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (data) {
+                        $(data).each(function () {
+                            $("#AId").append("<option value=" + this.AId + ">" + this.Address + "</option>")
+                        })
+                    }
+                })
+            }
+            //参会人下拉框
+            function canhuiren() {
+                $.ajax({
+                    url: '/Huiyi/Canhuizhe',
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (data) {
+                        $(data).each(function () {
+                            $("#CId").append("<option value=" + this.CId + ">" + this.Preple + "</option>")
+                        })
+                    }
+                })
+            }
+            //添加
+            function Add() {
+                $.ajax({
+                    url: '/Huiyi/Adds',
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        HuiyiNei: $("#HuiyiNei").val(),
+                        HuiyiName: $("#HuiyiName").val(),
+                        StartTime: $("#StartTime").val(),
+                        AId: $("#AId").val(),
+                        CId: $("#CId").val(),
+                        BeiZhu: $("#BeiZhu").val(),
+                        Shipin: $("[name=Shipin].checked").val(),
+                    },
+                    success: function (data) {
+                        if (data > 0)
+                        {
+                            alert('添加成功')
+                        }
+                    }
+                })
+            }
+        </script>
+        <table class="table table-bordered">
+            <tr>
+                <td>会议名称</td>
+                <td><input id="HuiyiNei" type="text" /></td>
+            </tr>
+            <tr>
+                <td>会议内容</td>
+                <td><input id="HuiyiName" type="text" /></td>
+            </tr>
+            <tr>
+                <td>起止时间</td>
+                <td><input id="StartTime" type="text"  onclick="WdatePicker()" /></td>
+            </tr>
+            <tr>
+                <td>会议地点</td>
+                <td>
+                    <select id="AId">
+                        <option value="0">--请选择--</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>参会者（选填）</td>
+                <td>
+                    <select id="CId">
+                        <option value="0">-请选择参会人员---</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>备注（选填）</td>
+                <td><textarea id="BeiZhu" rows="2" cols="20"></textarea></td>
+            </tr>
+            <tr>
+                <td>视频支持</td>
+                <td>
+                    <input id="Radio1" name="Shipin" type="radio" checked value="1" />需要
+                    <input id="Radio1" name="Shipin" type="radio" value="0" />不需要
+                </td>
+            </tr>
+            <tr>
+                <td><input id="Button1" type="button" value="提交" onclick="Add()" /></td>
+                <td><input id="Button1" type="button" value="保存" /></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
